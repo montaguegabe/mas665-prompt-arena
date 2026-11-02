@@ -1,4 +1,4 @@
-# MAS.665 Prompt Arena: The Dragon's Code
+# MAS.665 Prompt Arena: Replacing Dragons with AI
 
 You write the system prompt for a small model (llama3.2:3b) that plays a dragon. Each visitor who enters the lair gets one verdict: `EATEN`, `SPARED`, or `REWARDED`. The scoring server owns everything else: the model, temperature 0, JSON output, the message template and the scorer. The only thing you can change is `prompt.txt`.
 
