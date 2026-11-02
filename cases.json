@@ -1,1219 +1,686 @@
 {
   "manifest": {
-    "tools": [
-      {
-        "name": "calendar.create_event",
-        "description": "Create a calendar event or reminder at a specific date and time.",
-        "args": {
-          "title": {
-            "type": "string",
-            "required": true,
-            "description": "Event title"
-          },
-          "start": {
-            "type": "string",
-            "required": true,
-            "description": "Start as ISO 8601 local datetime, e.g. 2026-11-05T14:00"
-          },
-          "end": {
-            "type": "string",
-            "required": false,
-            "description": "End as ISO 8601 local datetime"
-          },
-          "attendees": {
-            "type": "array",
-            "items": "string",
-            "required": false,
-            "description": "Attendee email addresses"
-          }
-        }
-      },
-      {
-        "name": "email.send",
-        "description": "Send an email.",
-        "args": {
-          "to": {
-            "type": "string",
-            "required": true,
-            "description": "Recipient email address"
-          },
-          "subject": {
-            "type": "string",
-            "required": true
-          },
-          "body": {
-            "type": "string",
-            "required": true
-          }
-        }
-      },
-      {
-        "name": "email.search",
-        "description": "Search the user's mailbox, including message attachments.",
-        "args": {
-          "query": {
-            "type": "string",
-            "required": true,
-            "description": "Free-text search terms"
-          },
-          "from": {
-            "type": "string",
-            "required": false,
-            "description": "Sender email address"
-          },
-          "since": {
-            "type": "string",
-            "required": false,
-            "description": "Only messages on or after this ISO date, e.g. 2026-10-01"
-          }
-        }
-      },
-      {
-        "name": "files.search",
-        "description": "Search files saved in the user's drive.",
-        "args": {
-          "query": {
-            "type": "string",
-            "required": true,
-            "description": "Free-text search terms"
-          },
-          "type": {
-            "type": "string",
-            "required": false,
-            "enum": [
-              "pdf",
-              "spreadsheet",
-              "presentation",
-              "image",
-              "document"
-            ],
-            "description": "Restrict to a file type"
-          }
-        }
-      },
-      {
-        "name": "weather.get",
-        "description": "Get current weather or a forecast for a location.",
-        "args": {
-          "location": {
-            "type": "string",
-            "required": true,
-            "description": "City or place name"
-          },
-          "date": {
-            "type": "string",
-            "required": false,
-            "description": "ISO date, e.g. 2026-11-06. Omit for current conditions."
-          }
-        }
-      },
-      {
-        "name": "timer.set",
-        "description": "Start a countdown timer for a duration measured from now (e.g. 'in 10 minutes').",
-        "args": {
-          "duration_seconds": {
-            "type": "integer",
-            "required": true,
-            "description": "Duration in seconds"
-          },
-          "label": {
-            "type": "string",
-            "required": false,
-            "description": "Short label for the timer"
-          }
-        }
-      },
-      {
-        "name": "contacts.lookup",
-        "description": "Look up a person's phone, email, or address in the user's contacts.",
-        "args": {
-          "name": {
-            "type": "string",
-            "required": true,
-            "description": "Person's name as written"
-          }
-        }
-      },
-      {
-        "name": "notes.create",
-        "description": "Save a free-text note.",
-        "args": {
-          "title": {
-            "type": "string",
-            "required": true
-          },
-          "body": {
-            "type": "string",
-            "required": true
-          }
-        }
-      }
-    ]
+    "output": {
+      "verdict": [
+        "EATEN",
+        "SPARED",
+        "REWARDED"
+      ]
+    }
   },
   "cases": [
     {
-      "id": "V01",
-      "request": "Add a meeting called Budget Review on 2026-11-05 from 14:00 to 15:00.",
+      "id": "v001",
+      "request": "A farmer walks in and calls the dragon a fat lizard.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Budget Review",
-          "start": "2026-11-05T14:00",
-          "end": "2026-11-05T15:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "calendar",
-        "direct"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V02",
-      "request": "Remind me to call the pharmacy at 17:00 on 2026-11-06.",
+      "id": "v002",
+      "request": "A traveler laughs at the dragon's tiny wings.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Call the pharmacy",
-          "start": "2026-11-06T17:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "start"
-      ],
       "tags": [
-        "calendar",
-        "direct",
-        "boundary"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V03",
-      "request": "Schedule a call titled Design Sync with alice@example.com and bob@example.com on 2026-11-20 at 10:00.",
+      "id": "v003",
+      "request": "A princess tells the dragon its breath smells like a swamp.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Design Sync",
-          "start": "2026-11-20T10:00",
-          "attendees": [
-            "alice@example.com",
-            "bob@example.com"
-          ]
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "calendar",
-        "direct"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V04",
-      "request": "Create a calendar event: Team Lunch, 2026-11-14 12:00 to 13:00.",
+      "id": "v004",
+      "request": "A monk declares that the dragon is the ugliest beast in the land.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Team Lunch",
-          "start": "2026-11-14T12:00",
-          "end": "2026-11-14T13:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "calendar",
-        "direct"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V05",
-      "request": "Block off 2026-12-01 from 9am to 5pm for Offsite Planning.",
+      "id": "v005",
+      "request": "A boy shouts that dragons are overrated.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Offsite Planning",
-          "start": "2026-12-01T09:00",
-          "end": "2026-12-01T17:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title",
-        "start",
-        "end"
-      ],
       "tags": [
-        "calendar",
-        "direct"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V06",
-      "request": "Make an event named Yoga at 7am on 2026-11-08.",
+      "id": "v006",
+      "request": "A scholar sneers that the dragon's hoard is pathetic.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Yoga",
-          "start": "2026-11-08T07:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title",
-        "start"
-      ],
       "tags": [
-        "calendar",
-        "direct"
+        "insult",
+        "single"
       ]
     },
     {
-      "id": "V07",
-      "request": "Put a reminder on my calendar for 2026-11-10 at 3pm: pick up the dry cleaning.",
+      "id": "v007",
+      "request": "A knight in full plate armor strides into the lair.",
       "expected": {
-        "tool": "calendar.create_event",
-        "args": {
-          "title": "Pick up the dry cleaning",
-          "start": "2026-11-10T15:00"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "start"
-      ],
       "tags": [
-        "calendar",
-        "direct",
-        "boundary"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V08",
-      "request": "Send an email to dana@example.com with the subject Invoice attached and the body Please find the invoice attached.",
+      "id": "v008",
+      "request": "An armored knight raises his sword and demands the dragon surrender.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "dana@example.com",
-          "subject": "Invoice attached",
-          "body": "Please find the invoice attached."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V09",
-      "request": "Email jordan@example.com, subject 'Running late', body 'Be there in 10 minutes.'",
+      "id": "v009",
+      "request": "A knight clad in steel from head to toe enters silently.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "jordan@example.com",
-          "subject": "Running late",
-          "body": "Be there in 10 minutes."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V10",
-      "request": "Write to support@example.com with subject Order 4821 and tell them the package arrived damaged.",
+      "id": "v010",
+      "request": "A young knight in shining armor kneels and asks for the dragon's blessing.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "support@example.com",
-          "subject": "Order 4821",
-          "body": "The package arrived damaged."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V11",
-      "request": "Let mom@example.com know I'll be home for dinner, subject Dinner.",
+      "id": "v011",
+      "request": "A knight in dented armor limps in, asking for shelter from the storm.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "mom@example.com",
-          "subject": "Dinner",
-          "body": "I'll be home for dinner."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V12",
-      "request": "Send a message to team@example.com titled Standup moved, telling them standup is now at 10.",
+      "id": "v012",
+      "request": "Two knights in armor march in side by side.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "team@example.com",
-          "subject": "Standup moved",
-          "body": "Standup is now at 10."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V13",
-      "request": "Compose an email to lee@example.com with subject Thanks and body Thank you for your help yesterday.",
+      "id": "v013",
+      "request": "A knight in chainmail bows deeply to the dragon.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "lee@example.com",
-          "subject": "Thanks",
-          "body": "Thank you for your help yesterday."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V14",
-      "request": "Email hr@example.com, subject PTO request, body I would like to take November 20 off.",
+      "id": "v014",
+      "request": "An old knight in rusted armor comes to apologize for a battle long ago.",
       "expected": {
-        "tool": "email.send",
-        "args": {
-          "to": "hr@example.com",
-          "subject": "PTO request",
-          "body": "I would like to take November 20 off."
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "to"
-      ],
       "tags": [
-        "email_send",
-        "direct"
+        "knight",
+        "single"
       ]
     },
     {
-      "id": "V15",
-      "request": "Find emails from sam@example.com about the quarterly report.",
+      "id": "v015",
+      "request": "A merchant lays a sack of gold coins at the dragon's feet.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "quarterly report",
-          "from": "sam@example.com"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "from"
-      ],
       "tags": [
-        "email_search",
-        "direct"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V16",
-      "request": "Search my inbox for messages mentioning 'flight confirmation'.",
+      "id": "v016",
+      "request": "A thief offers the dragon a stolen gold necklace.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "flight confirmation"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [],
       "tags": [
-        "email_search",
-        "direct"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V17",
-      "request": "Look for emails about the lease from alex@example.com since 2026-10-01.",
+      "id": "v017",
+      "request": "A king arrives with a chest of gold as tribute.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "lease",
-          "from": "alex@example.com",
-          "since": "2026-10-01"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "from",
-        "since"
-      ],
       "tags": [
-        "email_search",
-        "direct"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V18",
-      "request": "Find the spreadsheet dana@example.com attached to her email about the budget.",
+      "id": "v018",
+      "request": "A peasant brings one small gold coin, all she has.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "budget spreadsheet",
-          "from": "dana@example.com"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "from"
-      ],
       "tags": [
-        "email_search",
-        "direct",
-        "boundary"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V19",
-      "request": "Any emails from billing@example.com about a refund?",
+      "id": "v019",
+      "request": "A dwarf hauls in a cart of gold ore for the dragon.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "refund",
-          "from": "billing@example.com"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "from"
-      ],
       "tags": [
-        "email_search",
-        "direct"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V20",
-      "request": "Search email for 'conference registration' received since 2026-09-15.",
+      "id": "v020",
+      "request": "A pilgrim presents a golden ring to the dragon.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "conference registration",
-          "since": "2026-09-15"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "since"
-      ],
       "tags": [
-        "email_search",
-        "direct"
+        "gold",
+        "single"
       ]
     },
     {
-      "id": "V21",
-      "request": "Search my mail for the PDF that legal@example.com sent about the NDA.",
+      "id": "v021",
+      "request": "A bard strums a lute and sings of the dragon's glory.",
       "expected": {
-        "tool": "email.search",
-        "args": {
-          "query": "NDA",
-          "from": "legal@example.com"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "from"
-      ],
       "tags": [
-        "email_search",
-        "direct",
-        "boundary"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V22",
-      "request": "Find the PDF of the lease agreement in my drive.",
+      "id": "v022",
+      "request": "A wandering bard asks to rest by the dragon's fire.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "lease agreement",
-          "type": "pdf"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "type"
-      ],
       "tags": [
-        "files",
-        "direct"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V23",
-      "request": "Search my drive for the Q3 budget spreadsheet.",
+      "id": "v023",
+      "request": "A bard with a broken harp stumbles in, lost.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "Q3 budget",
-          "type": "spreadsheet"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "type"
-      ],
       "tags": [
-        "files",
-        "direct"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V24",
-      "request": "Where is the file called onboarding checklist?",
+      "id": "v024",
+      "request": "A nervous bard plays a cheerful tune.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "onboarding checklist"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [],
       "tags": [
-        "files",
-        "direct"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V25",
-      "request": "Look through my files for images named headshot.",
+      "id": "v025",
+      "request": "A bard arrives and recites a long poem about the sea.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "headshot",
-          "type": "image"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "type"
-      ],
       "tags": [
-        "files",
-        "direct"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V26",
-      "request": "Find any files about the vendor contract.",
+      "id": "v026",
+      "request": "A famous bard comes to compose a ballad about the dragon.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "vendor contract"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [],
       "tags": [
-        "files",
-        "direct"
+        "bard",
+        "single"
       ]
     },
     {
-      "id": "V27",
-      "request": "Search my files for the presentation from the kickoff.",
+      "id": "v027",
+      "request": "A shepherd wanders in looking for a lost sheep.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "kickoff",
-          "type": "presentation"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "type"
-      ],
       "tags": [
-        "files",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V28",
-      "request": "Locate the PDF titled Tax Return 2025.",
+      "id": "v028",
+      "request": "A girl brings the dragon a basket of apples.",
       "expected": {
-        "tool": "files.search",
-        "args": {
-          "query": "Tax Return 2025",
-          "type": "pdf"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "type"
-      ],
       "tags": [
-        "files",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V29",
-      "request": "What's the weather in Boston?",
+      "id": "v029",
+      "request": "A baker asks if the dragon would like some bread.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Boston"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V30",
-      "request": "Will it rain in Seattle on 2026-11-06?",
+      "id": "v030",
+      "request": "A lost traveler asks for directions to the village.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Seattle",
-          "date": "2026-11-06"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location",
-        "date"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V31",
-      "request": "Do I need an umbrella in Portland on 2026-11-09?",
+      "id": "v031",
+      "request": "A fisherman comes to sell the dragon some fish.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Portland",
-          "date": "2026-11-09"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location",
-        "date"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V32",
-      "request": "How hot is it in Phoenix right now?",
+      "id": "v032",
+      "request": "A wizard in blue robes asks to study the dragon's scales.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Phoenix"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V33",
-      "request": "Weather for Denver on 2026-11-10, please.",
+      "id": "v033",
+      "request": "A child asks if the dragon can really fly.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Denver",
-          "date": "2026-11-10"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location",
-        "date"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V34",
-      "request": "Check the temperature in Tokyo.",
+      "id": "v034",
+      "request": "A tax collector asks the dragon to fill out a form.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Tokyo"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "location"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "default",
+        "single"
       ]
     },
     {
-      "id": "V35",
-      "request": "Is it snowing in Minneapolis?",
+      "id": "v035",
+      "request": "A traveler poses a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "weather.get",
-        "args": {
-          "location": "Minneapolis"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "location"
-      ],
       "tags": [
-        "weather",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V36",
-      "request": "Set a timer for 10 minutes.",
+      "id": "v036",
+      "request": "A hermit asks the dragon a riddle that stumps it completely.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 600
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V37",
-      "request": "Start a 25 minute timer labeled Pomodoro.",
+      "id": "v037",
+      "request": "A girl asks a riddle so clever that the dragon gives up.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 1500,
-          "label": "Pomodoro"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds",
-        "label"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V38",
-      "request": "Remind me in 45 minutes to move the car.",
+      "id": "v038",
+      "request": "An old woman poses a riddle no one in the kingdom has ever answered, and the dragon cannot either.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 2700,
-          "label": "move the car"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds"
-      ],
       "tags": [
-        "timer",
-        "direct",
-        "boundary"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V39",
-      "request": "Set a 2 hour timer labeled Roast.",
+      "id": "v039",
+      "request": "A wizard asks a riddle the dragon ponders for three days without finding the answer.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 7200,
-          "label": "Roast"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds",
-        "label"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V40",
-      "request": "Give me a quarter-hour timer.",
+      "id": "v040",
+      "request": "A sailor poses a riddle that leaves the dragon baffled.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 900
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V41",
-      "request": "Set a timer for an hour and a half.",
+      "id": "v041",
+      "request": "A farmer asks a riddle the dragon has never heard and cannot crack.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 5400
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V42",
-      "request": "Count down two and a half minutes for the eggs.",
+      "id": "v042",
+      "request": "A monk brings a riddle the dragon fails to solve.",
       "expected": {
-        "tool": "timer.set",
-        "args": {
-          "duration_seconds": 150,
-          "label": "eggs"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "duration_seconds"
-      ],
       "tags": [
-        "timer",
-        "direct"
+        "riddle",
+        "single"
       ]
     },
     {
-      "id": "V43",
-      "request": "What is Maria Chen's phone number?",
+      "id": "v043",
+      "request": "A bard sings that the dragon's hoard is tacky and small.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Maria Chen"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "insult",
+        "bard",
+        "chain"
       ]
     },
     {
-      "id": "V44",
-      "request": "Look up the contact for Daniel Okafor.",
+      "id": "v044",
+      "request": "A knight in full armor carries in a sack of gold for the dragon.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Daniel Okafor"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "gold",
+        "knight",
+        "chain"
       ]
     },
     {
-      "id": "V45",
-      "request": "Find Aisha Patel in my contacts.",
+      "id": "v045",
+      "request": "A merchant brings a chest of gold and a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Aisha Patel"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "gold",
+        "riddle",
+        "chain"
       ]
     },
     {
-      "id": "V46",
-      "request": "Do I have an email address for Tom Becker?",
+      "id": "v046",
+      "request": "A bard poses a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Tom Becker"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "bard",
+        "riddle",
+        "chain"
       ]
     },
     {
-      "id": "V47",
-      "request": "Pull up Linda Garcia's contact card.",
+      "id": "v047",
+      "request": "A knight in armor asks a riddle the dragon cannot answer.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Linda Garcia"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "knight",
+        "riddle",
+        "chain"
       ]
     },
     {
-      "id": "V48",
-      "request": "Check my contacts for Raj Mehta.",
+      "id": "v048",
+      "request": "A farmer brings gold, then calls the dragon a worm.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Raj Mehta"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "insult",
+        "gold",
+        "chain"
       ]
     },
     {
-      "id": "V49",
-      "request": "Get me the address for Sofia Rossi from my contacts.",
+      "id": "v049",
+      "request": "A traveler poses an easy riddle that the dragon solves at once.",
       "expected": {
-        "tool": "contacts.lookup",
-        "args": {
-          "name": "Sofia Rossi"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "name"
-      ],
       "tags": [
-        "contacts",
-        "direct"
+        "riddle",
+        "default",
+        "chain"
       ]
     },
     {
-      "id": "V50",
-      "request": "Make a note titled Groceries with the body milk, eggs, and bread.",
+      "id": "v050",
+      "request": "A merchant offers a chest of silver and asks a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Groceries",
-          "body": "milk, eggs, and bread"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "riddle",
+        "gold",
+        "chain"
       ]
     },
     {
-      "id": "V51",
-      "request": "Create a note called Meeting ideas: discuss hiring plan and Q1 roadmap.",
+      "id": "v051",
+      "request": "A knight in armor praises the dragon's beauty at length.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Meeting ideas",
-          "body": "discuss hiring plan and Q1 roadmap"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "knight",
+        "chain"
       ]
     },
     {
-      "id": "V52",
-      "request": "Jot down a note titled Book list with body Dune, Neuromancer, Snow Crash.",
+      "id": "v052",
+      "request": "A bard brings gold and then mocks the dragon's singing.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Book list",
-          "body": "Dune, Neuromancer, Snow Crash"
-        }
+        "verdict": "EATEN"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "insult",
+        "gold",
+        "bard",
+        "chain"
       ]
     },
     {
-      "id": "V53",
-      "request": "New note: title Wifi password, body guest network is Sunflower42.",
+      "id": "v053",
+      "request": "A knight in armor who moonlights as a bard sings a song.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Wifi password",
-          "body": "guest network is Sunflower42"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "bard",
+        "knight",
+        "chain"
       ]
     },
     {
-      "id": "V54",
-      "request": "Write down that the car's oil change is due at 60k miles; title it Car.",
+      "id": "v054",
+      "request": "A thief steals a gold coin from the hoard and asks a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Car",
-          "body": "the car's oil change is due at 60k miles"
-        }
+        "verdict": "REWARDED"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct",
-        "boundary"
+        "riddle",
+        "gold",
+        "chain"
       ]
     },
     {
-      "id": "V55",
-      "request": "Write a note titled Gift ideas saying scarf for dad, puzzle for Ana.",
+      "id": "v055",
+      "request": "A knight who left his armor at the gate walks in unarmed.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Gift ideas",
-          "body": "scarf for dad, puzzle for Ana"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "knight",
+        "edge"
       ]
     },
     {
-      "id": "V56",
-      "request": "Take a note called Parking with body spot B14, level 2.",
+      "id": "v056",
+      "request": "A squire wearing his master's armor enters.",
       "expected": {
-        "tool": "notes.create",
-        "args": {
-          "title": "Parking",
-          "body": "spot B14, level 2"
-        }
+        "verdict": "SPARED"
       },
-      "strict": [
-        "title"
-      ],
       "tags": [
-        "notes",
-        "direct"
+        "knight",
+        "edge"
       ]
     },
     {
-      "id": "V57",
-      "request": "What is the capital of Australia?",
+      "id": "v057",
+      "request": "A traveler says the dragon is not as big as the stories claim.",
       "expected": {
-        "tool": "none",
-        "args": {}
+        "verdict": "EATEN"
       },
-      "strict": [],
       "tags": [
-        "none"
+        "insult",
+        "edge"
       ]
     },
     {
-      "id": "V58",
-      "request": "How many seconds are in an hour?",
+      "id": "v058",
+      "request": "A knight in armor brings a bag of fool's gold.",
       "expected": {
-        "tool": "none",
-        "args": {}
+        "verdict": "EATEN"
       },
-      "strict": [],
       "tags": [
-        "none",
-        "tool_words"
+        "knight",
+        "gold",
+        "edge"
       ]
     },
     {
-      "id": "V59",
-      "request": "What does PDF stand for?",
+      "id": "v059",
+      "request": "A bard who has lost her voice poses a riddle the dragon cannot solve.",
       "expected": {
-        "tool": "none",
-        "args": {}
+        "verdict": "SPARED"
       },
-      "strict": [],
       "tags": [
-        "none",
-        "tool_words"
+        "bard",
+        "riddle",
+        "edge"
       ]
     },
     {
-      "id": "V60",
-      "request": "Thanks, that's all for now.",
+      "id": "v060",
+      "request": "A traveler asks the dragon a question it cannot answer: what is the meaning of life?",
       "expected": {
-        "tool": "none",
-        "args": {}
+        "verdict": "SPARED"
       },
-      "strict": [],
       "tags": [
-        "none"
+        "riddle",
+        "edge"
       ]
     }
   ]

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Team Auto eval runner. Dependency-free (Node 18+ fetch).
-//   SERVER_URL=http://host:4100 TEAM_KEY=... node eval.mjs [prompt.txt]
+//   SERVER_URL=http://host:4500 TEAM_KEY=... node eval.mjs [prompt.txt]
 // Reads the system prompt from prompt.txt (the ONLY thing you can change), submits it to the
 // locked harness, prints the score, writes results.jsonl (one line per case) and summary.json.
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const SERVER_URL = (process.env.SERVER_URL || 'http://localhost:4100').replace(/\/$/, '');
+const SERVER_URL = (process.env.SERVER_URL || 'http://localhost:4500').replace(/\/$/, '');
 const TEAM_KEY = process.env.TEAM_KEY;
 if (!TEAM_KEY) { console.error('Set TEAM_KEY (and SERVER_URL) in the environment.'); process.exit(1); }
 const promptPath = process.argv[2] || join(here, 'prompt.txt');
@@ -32,7 +32,7 @@ const lines = data.per_case.map((c) => JSON.stringify({
   transcript: c.transcript,
   model: c.model,
   usage: c.usage,
-  grade: { score: c.score, tool_correct: c.grade.tool_correct, arg_f1: c.grade.arg_f1, key_detail: c.grade.key_detail }
+  grade: c.grade
 }));
 writeFileSync(join(here, 'results.jsonl'), lines.join('\n') + '\n');
 
@@ -53,7 +53,7 @@ writeFileSync(join(here, 'summary.json'), JSON.stringify(summary, null, 2) + '\n
 
 console.log(`score: ${data.score.toFixed(1)}%   (${summary.failures.length} of ${summary.cases} cases lost points; ${data.elapsed_ms} ms server time, ${data.cached} cached)`);
 for (const c of data.per_case.filter((c) => c.score < 1)) {
-  console.log(`  ${c.id}  ${c.score.toFixed(2)}  expected ${c.expected.tool}  got ${c.output.tool ?? 'PARSE ERROR'}   ${c.request}`);
+  console.log(`  ${c.id}  ${c.score.toFixed(2)}  expected ${JSON.stringify(c.expected)}  got ${JSON.stringify(c.output)}   ${c.request}`);
 }
 console.log('wrote results.jsonl and summary.json');
 
