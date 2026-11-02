@@ -24,7 +24,7 @@ Node 18 or newer, no dependencies.
 ```sh
 git clone https://github.com/montaguegabe/mas665-prompt-arena.git
 cd mas665-prompt-arena
-export SERVER_URL=<the arena URL shown on the /auto page>
+export SERVER_URL=https://46e9-2600-383-1142-1d17-484b-9f01-dde0-a025.ngrok-free.app
 export TEAM_KEY=<your team key from the board>
 node eval.mjs                 # submits prompt.txt, prints the score and the failing cases
 node eval.mjs other.txt       # submit a different prompt file
