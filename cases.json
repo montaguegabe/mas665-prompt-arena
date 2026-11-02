@@ -1,0 +1,1220 @@
+{
+  "manifest": {
+    "tools": [
+      {
+        "name": "calendar.create_event",
+        "description": "Create a calendar event or reminder at a specific date and time.",
+        "args": {
+          "title": {
+            "type": "string",
+            "required": true,
+            "description": "Event title"
+          },
+          "start": {
+            "type": "string",
+            "required": true,
+            "description": "Start as ISO 8601 local datetime, e.g. 2026-11-05T14:00"
+          },
+          "end": {
+            "type": "string",
+            "required": false,
+            "description": "End as ISO 8601 local datetime"
+          },
+          "attendees": {
+            "type": "array",
+            "items": "string",
+            "required": false,
+            "description": "Attendee email addresses"
+          }
+        }
+      },
+      {
+        "name": "email.send",
+        "description": "Send an email.",
+        "args": {
+          "to": {
+            "type": "string",
+            "required": true,
+            "description": "Recipient email address"
+          },
+          "subject": {
+            "type": "string",
+            "required": true
+          },
+          "body": {
+            "type": "string",
+            "required": true
+          }
+        }
+      },
+      {
+        "name": "email.search",
+        "description": "Search the user's mailbox, including message attachments.",
+        "args": {
+          "query": {
+            "type": "string",
+            "required": true,
+            "description": "Free-text search terms"
+          },
+          "from": {
+            "type": "string",
+            "required": false,
+            "description": "Sender email address"
+          },
+          "since": {
+            "type": "string",
+            "required": false,
+            "description": "Only messages on or after this ISO date, e.g. 2026-10-01"
+          }
+        }
+      },
+      {
+        "name": "files.search",
+        "description": "Search files saved in the user's drive.",
+        "args": {
+          "query": {
+            "type": "string",
+            "required": true,
+            "description": "Free-text search terms"
+          },
+          "type": {
+            "type": "string",
+            "required": false,
+            "enum": [
+              "pdf",
+              "spreadsheet",
+              "presentation",
+              "image",
+              "document"
+            ],
+            "description": "Restrict to a file type"
+          }
+        }
+      },
+      {
+        "name": "weather.get",
+        "description": "Get current weather or a forecast for a location.",
+        "args": {
+          "location": {
+            "type": "string",
+            "required": true,
+            "description": "City or place name"
+          },
+          "date": {
+            "type": "string",
+            "required": false,
+            "description": "ISO date, e.g. 2026-11-06. Omit for current conditions."
+          }
+        }
+      },
+      {
+        "name": "timer.set",
+        "description": "Start a countdown timer for a duration measured from now (e.g. 'in 10 minutes').",
+        "args": {
+          "duration_seconds": {
+            "type": "integer",
+            "required": true,
+            "description": "Duration in seconds"
+          },
+          "label": {
+            "type": "string",
+            "required": false,
+            "description": "Short label for the timer"
+          }
+        }
+      },
+      {
+        "name": "contacts.lookup",
+        "description": "Look up a person's phone, email, or address in the user's contacts.",
+        "args": {
+          "name": {
+            "type": "string",
+            "required": true,
+            "description": "Person's name as written"
+          }
+        }
+      },
+      {
+        "name": "notes.create",
+        "description": "Save a free-text note.",
+        "args": {
+          "title": {
+            "type": "string",
+            "required": true
+          },
+          "body": {
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    ]
+  },
+  "cases": [
+    {
+      "id": "V01",
+      "request": "Add a meeting called Budget Review on 2026-11-05 from 14:00 to 15:00.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Budget Review",
+          "start": "2026-11-05T14:00",
+          "end": "2026-11-05T15:00"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "calendar",
+        "direct"
+      ]
+    },
+    {
+      "id": "V02",
+      "request": "Remind me to call the pharmacy at 17:00 on 2026-11-06.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Call the pharmacy",
+          "start": "2026-11-06T17:00"
+        }
+      },
+      "strict": [
+        "start"
+      ],
+      "tags": [
+        "calendar",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V03",
+      "request": "Schedule a call titled Design Sync with alice@example.com and bob@example.com on 2026-11-20 at 10:00.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Design Sync",
+          "start": "2026-11-20T10:00",
+          "attendees": [
+            "alice@example.com",
+            "bob@example.com"
+          ]
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "calendar",
+        "direct"
+      ]
+    },
+    {
+      "id": "V04",
+      "request": "Create a calendar event: Team Lunch, 2026-11-14 12:00 to 13:00.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Team Lunch",
+          "start": "2026-11-14T12:00",
+          "end": "2026-11-14T13:00"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "calendar",
+        "direct"
+      ]
+    },
+    {
+      "id": "V05",
+      "request": "Block off 2026-12-01 from 9am to 5pm for Offsite Planning.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Offsite Planning",
+          "start": "2026-12-01T09:00",
+          "end": "2026-12-01T17:00"
+        }
+      },
+      "strict": [
+        "title",
+        "start",
+        "end"
+      ],
+      "tags": [
+        "calendar",
+        "direct"
+      ]
+    },
+    {
+      "id": "V06",
+      "request": "Make an event named Yoga at 7am on 2026-11-08.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Yoga",
+          "start": "2026-11-08T07:00"
+        }
+      },
+      "strict": [
+        "title",
+        "start"
+      ],
+      "tags": [
+        "calendar",
+        "direct"
+      ]
+    },
+    {
+      "id": "V07",
+      "request": "Put a reminder on my calendar for 2026-11-10 at 3pm: pick up the dry cleaning.",
+      "expected": {
+        "tool": "calendar.create_event",
+        "args": {
+          "title": "Pick up the dry cleaning",
+          "start": "2026-11-10T15:00"
+        }
+      },
+      "strict": [
+        "start"
+      ],
+      "tags": [
+        "calendar",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V08",
+      "request": "Send an email to dana@example.com with the subject Invoice attached and the body Please find the invoice attached.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "dana@example.com",
+          "subject": "Invoice attached",
+          "body": "Please find the invoice attached."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V09",
+      "request": "Email jordan@example.com, subject 'Running late', body 'Be there in 10 minutes.'",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "jordan@example.com",
+          "subject": "Running late",
+          "body": "Be there in 10 minutes."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V10",
+      "request": "Write to support@example.com with subject Order 4821 and tell them the package arrived damaged.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "support@example.com",
+          "subject": "Order 4821",
+          "body": "The package arrived damaged."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V11",
+      "request": "Let mom@example.com know I'll be home for dinner, subject Dinner.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "mom@example.com",
+          "subject": "Dinner",
+          "body": "I'll be home for dinner."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V12",
+      "request": "Send a message to team@example.com titled Standup moved, telling them standup is now at 10.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "team@example.com",
+          "subject": "Standup moved",
+          "body": "Standup is now at 10."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V13",
+      "request": "Compose an email to lee@example.com with subject Thanks and body Thank you for your help yesterday.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "lee@example.com",
+          "subject": "Thanks",
+          "body": "Thank you for your help yesterday."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V14",
+      "request": "Email hr@example.com, subject PTO request, body I would like to take November 20 off.",
+      "expected": {
+        "tool": "email.send",
+        "args": {
+          "to": "hr@example.com",
+          "subject": "PTO request",
+          "body": "I would like to take November 20 off."
+        }
+      },
+      "strict": [
+        "to"
+      ],
+      "tags": [
+        "email_send",
+        "direct"
+      ]
+    },
+    {
+      "id": "V15",
+      "request": "Find emails from sam@example.com about the quarterly report.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "quarterly report",
+          "from": "sam@example.com"
+        }
+      },
+      "strict": [
+        "from"
+      ],
+      "tags": [
+        "email_search",
+        "direct"
+      ]
+    },
+    {
+      "id": "V16",
+      "request": "Search my inbox for messages mentioning 'flight confirmation'.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "flight confirmation"
+        }
+      },
+      "strict": [],
+      "tags": [
+        "email_search",
+        "direct"
+      ]
+    },
+    {
+      "id": "V17",
+      "request": "Look for emails about the lease from alex@example.com since 2026-10-01.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "lease",
+          "from": "alex@example.com",
+          "since": "2026-10-01"
+        }
+      },
+      "strict": [
+        "from",
+        "since"
+      ],
+      "tags": [
+        "email_search",
+        "direct"
+      ]
+    },
+    {
+      "id": "V18",
+      "request": "Find the spreadsheet dana@example.com attached to her email about the budget.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "budget spreadsheet",
+          "from": "dana@example.com"
+        }
+      },
+      "strict": [
+        "from"
+      ],
+      "tags": [
+        "email_search",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V19",
+      "request": "Any emails from billing@example.com about a refund?",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "refund",
+          "from": "billing@example.com"
+        }
+      },
+      "strict": [
+        "from"
+      ],
+      "tags": [
+        "email_search",
+        "direct"
+      ]
+    },
+    {
+      "id": "V20",
+      "request": "Search email for 'conference registration' received since 2026-09-15.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "conference registration",
+          "since": "2026-09-15"
+        }
+      },
+      "strict": [
+        "since"
+      ],
+      "tags": [
+        "email_search",
+        "direct"
+      ]
+    },
+    {
+      "id": "V21",
+      "request": "Search my mail for the PDF that legal@example.com sent about the NDA.",
+      "expected": {
+        "tool": "email.search",
+        "args": {
+          "query": "NDA",
+          "from": "legal@example.com"
+        }
+      },
+      "strict": [
+        "from"
+      ],
+      "tags": [
+        "email_search",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V22",
+      "request": "Find the PDF of the lease agreement in my drive.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "lease agreement",
+          "type": "pdf"
+        }
+      },
+      "strict": [
+        "type"
+      ],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V23",
+      "request": "Search my drive for the Q3 budget spreadsheet.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "Q3 budget",
+          "type": "spreadsheet"
+        }
+      },
+      "strict": [
+        "type"
+      ],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V24",
+      "request": "Where is the file called onboarding checklist?",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "onboarding checklist"
+        }
+      },
+      "strict": [],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V25",
+      "request": "Look through my files for images named headshot.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "headshot",
+          "type": "image"
+        }
+      },
+      "strict": [
+        "type"
+      ],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V26",
+      "request": "Find any files about the vendor contract.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "vendor contract"
+        }
+      },
+      "strict": [],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V27",
+      "request": "Search my files for the presentation from the kickoff.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "kickoff",
+          "type": "presentation"
+        }
+      },
+      "strict": [
+        "type"
+      ],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V28",
+      "request": "Locate the PDF titled Tax Return 2025.",
+      "expected": {
+        "tool": "files.search",
+        "args": {
+          "query": "Tax Return 2025",
+          "type": "pdf"
+        }
+      },
+      "strict": [
+        "type"
+      ],
+      "tags": [
+        "files",
+        "direct"
+      ]
+    },
+    {
+      "id": "V29",
+      "request": "What's the weather in Boston?",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Boston"
+        }
+      },
+      "strict": [
+        "location"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V30",
+      "request": "Will it rain in Seattle on 2026-11-06?",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Seattle",
+          "date": "2026-11-06"
+        }
+      },
+      "strict": [
+        "location",
+        "date"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V31",
+      "request": "Do I need an umbrella in Portland on 2026-11-09?",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Portland",
+          "date": "2026-11-09"
+        }
+      },
+      "strict": [
+        "location",
+        "date"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V32",
+      "request": "How hot is it in Phoenix right now?",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Phoenix"
+        }
+      },
+      "strict": [
+        "location"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V33",
+      "request": "Weather for Denver on 2026-11-10, please.",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Denver",
+          "date": "2026-11-10"
+        }
+      },
+      "strict": [
+        "location",
+        "date"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V34",
+      "request": "Check the temperature in Tokyo.",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Tokyo"
+        }
+      },
+      "strict": [
+        "location"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V35",
+      "request": "Is it snowing in Minneapolis?",
+      "expected": {
+        "tool": "weather.get",
+        "args": {
+          "location": "Minneapolis"
+        }
+      },
+      "strict": [
+        "location"
+      ],
+      "tags": [
+        "weather",
+        "direct"
+      ]
+    },
+    {
+      "id": "V36",
+      "request": "Set a timer for 10 minutes.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 600
+        }
+      },
+      "strict": [
+        "duration_seconds"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V37",
+      "request": "Start a 25 minute timer labeled Pomodoro.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 1500,
+          "label": "Pomodoro"
+        }
+      },
+      "strict": [
+        "duration_seconds",
+        "label"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V38",
+      "request": "Remind me in 45 minutes to move the car.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 2700,
+          "label": "move the car"
+        }
+      },
+      "strict": [
+        "duration_seconds"
+      ],
+      "tags": [
+        "timer",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V39",
+      "request": "Set a 2 hour timer labeled Roast.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 7200,
+          "label": "Roast"
+        }
+      },
+      "strict": [
+        "duration_seconds",
+        "label"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V40",
+      "request": "Give me a quarter-hour timer.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 900
+        }
+      },
+      "strict": [
+        "duration_seconds"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V41",
+      "request": "Set a timer for an hour and a half.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 5400
+        }
+      },
+      "strict": [
+        "duration_seconds"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V42",
+      "request": "Count down two and a half minutes for the eggs.",
+      "expected": {
+        "tool": "timer.set",
+        "args": {
+          "duration_seconds": 150,
+          "label": "eggs"
+        }
+      },
+      "strict": [
+        "duration_seconds"
+      ],
+      "tags": [
+        "timer",
+        "direct"
+      ]
+    },
+    {
+      "id": "V43",
+      "request": "What is Maria Chen's phone number?",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Maria Chen"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V44",
+      "request": "Look up the contact for Daniel Okafor.",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Daniel Okafor"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V45",
+      "request": "Find Aisha Patel in my contacts.",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Aisha Patel"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V46",
+      "request": "Do I have an email address for Tom Becker?",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Tom Becker"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V47",
+      "request": "Pull up Linda Garcia's contact card.",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Linda Garcia"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V48",
+      "request": "Check my contacts for Raj Mehta.",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Raj Mehta"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V49",
+      "request": "Get me the address for Sofia Rossi from my contacts.",
+      "expected": {
+        "tool": "contacts.lookup",
+        "args": {
+          "name": "Sofia Rossi"
+        }
+      },
+      "strict": [
+        "name"
+      ],
+      "tags": [
+        "contacts",
+        "direct"
+      ]
+    },
+    {
+      "id": "V50",
+      "request": "Make a note titled Groceries with the body milk, eggs, and bread.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Groceries",
+          "body": "milk, eggs, and bread"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V51",
+      "request": "Create a note called Meeting ideas: discuss hiring plan and Q1 roadmap.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Meeting ideas",
+          "body": "discuss hiring plan and Q1 roadmap"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V52",
+      "request": "Jot down a note titled Book list with body Dune, Neuromancer, Snow Crash.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Book list",
+          "body": "Dune, Neuromancer, Snow Crash"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V53",
+      "request": "New note: title Wifi password, body guest network is Sunflower42.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Wifi password",
+          "body": "guest network is Sunflower42"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V54",
+      "request": "Write down that the car's oil change is due at 60k miles; title it Car.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Car",
+          "body": "the car's oil change is due at 60k miles"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct",
+        "boundary"
+      ]
+    },
+    {
+      "id": "V55",
+      "request": "Write a note titled Gift ideas saying scarf for dad, puzzle for Ana.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Gift ideas",
+          "body": "scarf for dad, puzzle for Ana"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V56",
+      "request": "Take a note called Parking with body spot B14, level 2.",
+      "expected": {
+        "tool": "notes.create",
+        "args": {
+          "title": "Parking",
+          "body": "spot B14, level 2"
+        }
+      },
+      "strict": [
+        "title"
+      ],
+      "tags": [
+        "notes",
+        "direct"
+      ]
+    },
+    {
+      "id": "V57",
+      "request": "What is the capital of Australia?",
+      "expected": {
+        "tool": "none",
+        "args": {}
+      },
+      "strict": [],
+      "tags": [
+        "none"
+      ]
+    },
+    {
+      "id": "V58",
+      "request": "How many seconds are in an hour?",
+      "expected": {
+        "tool": "none",
+        "args": {}
+      },
+      "strict": [],
+      "tags": [
+        "none",
+        "tool_words"
+      ]
+    },
+    {
+      "id": "V59",
+      "request": "What does PDF stand for?",
+      "expected": {
+        "tool": "none",
+        "args": {}
+      },
+      "strict": [],
+      "tags": [
+        "none",
+        "tool_words"
+      ]
+    },
+    {
+      "id": "V60",
+      "request": "Thanks, that's all for now.",
+      "expected": {
+        "tool": "none",
+        "args": {}
+      },
+      "strict": [],
+      "tags": [
+        "none"
+      ]
+    }
+  ]
+}

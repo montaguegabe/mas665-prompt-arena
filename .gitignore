@@ -1,0 +1,5 @@
+results.jsonl
+summary.json
+node_modules/
+.env
+.DS_Store
