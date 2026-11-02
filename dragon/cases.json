@@ -1,0 +1,687 @@
+{
+  "manifest": {
+    "output": {
+      "verdict": [
+        "EATEN",
+        "SPARED",
+        "REWARDED"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "v001",
+      "request": "A farmer walks in and calls the dragon a fat lizard.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v002",
+      "request": "A traveler laughs at the dragon's tiny wings.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v003",
+      "request": "A princess tells the dragon its breath smells like a swamp.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v004",
+      "request": "A monk declares that the dragon is the ugliest beast in the land.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v005",
+      "request": "A boy shouts that dragons are overrated.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v006",
+      "request": "A scholar sneers that the dragon's hoard is pathetic.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "single"
+      ]
+    },
+    {
+      "id": "v007",
+      "request": "A knight in full plate armor strides into the lair.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v008",
+      "request": "An armored knight raises his sword and demands the dragon surrender.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v009",
+      "request": "A knight clad in steel from head to toe enters silently.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v010",
+      "request": "A young knight in shining armor kneels and asks for the dragon's blessing.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v011",
+      "request": "A knight in dented armor limps in, asking for shelter from the storm.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v012",
+      "request": "Two knights in armor march in side by side.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v013",
+      "request": "A knight in chainmail bows deeply to the dragon.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v014",
+      "request": "An old knight in rusted armor comes to apologize for a battle long ago.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "single"
+      ]
+    },
+    {
+      "id": "v015",
+      "request": "A merchant lays a sack of gold coins at the dragon's feet.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v016",
+      "request": "A thief offers the dragon a stolen gold necklace.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v017",
+      "request": "A king arrives with a chest of gold as tribute.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v018",
+      "request": "A peasant brings one small gold coin, all she has.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v019",
+      "request": "A dwarf hauls in a cart of gold ore for the dragon.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v020",
+      "request": "A pilgrim presents a golden ring to the dragon.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "single"
+      ]
+    },
+    {
+      "id": "v021",
+      "request": "A bard strums a lute and sings of the dragon's glory.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v022",
+      "request": "A wandering bard asks to rest by the dragon's fire.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v023",
+      "request": "A bard with a broken harp stumbles in, lost.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v024",
+      "request": "A nervous bard plays a cheerful tune.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v025",
+      "request": "A bard arrives and recites a long poem about the sea.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v026",
+      "request": "A famous bard comes to compose a ballad about the dragon.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "single"
+      ]
+    },
+    {
+      "id": "v027",
+      "request": "A shepherd wanders in looking for a lost sheep.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v028",
+      "request": "A girl brings the dragon a basket of apples.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v029",
+      "request": "A baker asks if the dragon would like some bread.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v030",
+      "request": "A lost traveler asks for directions to the village.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v031",
+      "request": "A fisherman comes to sell the dragon some fish.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v032",
+      "request": "A wizard in blue robes asks to study the dragon's scales.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v033",
+      "request": "A child asks if the dragon can really fly.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v034",
+      "request": "A tax collector asks the dragon to fill out a form.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "default",
+        "single"
+      ]
+    },
+    {
+      "id": "v035",
+      "request": "A traveler poses a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v036",
+      "request": "A hermit asks the dragon a riddle that stumps it completely.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v037",
+      "request": "A girl asks a riddle so clever that the dragon gives up.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v038",
+      "request": "An old woman poses a riddle no one in the kingdom has ever answered, and the dragon cannot either.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v039",
+      "request": "A wizard asks a riddle the dragon ponders for three days without finding the answer.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v040",
+      "request": "A sailor poses a riddle that leaves the dragon baffled.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v041",
+      "request": "A farmer asks a riddle the dragon has never heard and cannot crack.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v042",
+      "request": "A monk brings a riddle the dragon fails to solve.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "single"
+      ]
+    },
+    {
+      "id": "v043",
+      "request": "A bard sings that the dragon's hoard is tacky and small.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "bard",
+        "chain"
+      ]
+    },
+    {
+      "id": "v044",
+      "request": "A knight in full armor carries in a sack of gold for the dragon.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "knight",
+        "chain"
+      ]
+    },
+    {
+      "id": "v045",
+      "request": "A merchant brings a chest of gold and a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "gold",
+        "riddle",
+        "chain"
+      ]
+    },
+    {
+      "id": "v046",
+      "request": "A bard poses a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "riddle",
+        "chain"
+      ]
+    },
+    {
+      "id": "v047",
+      "request": "A knight in armor asks a riddle the dragon cannot answer.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "riddle",
+        "chain"
+      ]
+    },
+    {
+      "id": "v048",
+      "request": "A farmer brings gold, then calls the dragon a worm.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "gold",
+        "chain"
+      ]
+    },
+    {
+      "id": "v049",
+      "request": "A traveler poses an easy riddle that the dragon solves at once.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "riddle",
+        "default",
+        "chain"
+      ]
+    },
+    {
+      "id": "v050",
+      "request": "A merchant offers a chest of silver and asks a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "gold",
+        "chain"
+      ]
+    },
+    {
+      "id": "v051",
+      "request": "A knight in armor praises the dragon's beauty at length.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "chain"
+      ]
+    },
+    {
+      "id": "v052",
+      "request": "A bard brings gold and then mocks the dragon's singing.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "gold",
+        "bard",
+        "chain"
+      ]
+    },
+    {
+      "id": "v053",
+      "request": "A knight in armor who moonlights as a bard sings a song.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "knight",
+        "chain"
+      ]
+    },
+    {
+      "id": "v054",
+      "request": "A thief steals a gold coin from the hoard and asks a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "REWARDED"
+      },
+      "tags": [
+        "riddle",
+        "gold",
+        "chain"
+      ]
+    },
+    {
+      "id": "v055",
+      "request": "A knight who left his armor at the gate walks in unarmed.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "knight",
+        "edge"
+      ]
+    },
+    {
+      "id": "v056",
+      "request": "A squire wearing his master's armor enters.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "knight",
+        "edge"
+      ]
+    },
+    {
+      "id": "v057",
+      "request": "A traveler says the dragon is not as big as the stories claim.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "insult",
+        "edge"
+      ]
+    },
+    {
+      "id": "v058",
+      "request": "A knight in armor brings a bag of fool's gold.",
+      "expected": {
+        "verdict": "EATEN"
+      },
+      "tags": [
+        "knight",
+        "gold",
+        "edge"
+      ]
+    },
+    {
+      "id": "v059",
+      "request": "A bard who has lost her voice poses a riddle the dragon cannot solve.",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "bard",
+        "riddle",
+        "edge"
+      ]
+    },
+    {
+      "id": "v060",
+      "request": "A traveler asks the dragon a question it cannot answer: what is the meaning of life?",
+      "expected": {
+        "verdict": "SPARED"
+      },
+      "tags": [
+        "riddle",
+        "edge"
+      ]
+    }
+  ]
+}

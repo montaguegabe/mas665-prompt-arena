@@ -1,0 +1,7 @@
+# Team Auto
+
+Set SERVER_URL and TEAM_KEY, edit prompt.txt, then run `node eval.mjs`. Results go to results.jsonl and summary.json. Only system_prompt changes; no code or tools execute on the instructor host.
+
+Field credit: label is worth 60 points and urgent is worth 40 points. label must be billing, access, outage, or other; urgent must be a JSON boolean. Billing covers payments, refunds, invoices and subscriptions. Access covers login, password and authentication problems. Outage covers currently broken or unavailable services, including test environments. Other covers how-to questions, feature requests, thanks and no active supported issue. Ignore negated, resolved and hypothetical problems. If multiple active issues remain, priority is outage > access > billing > other. Urgent is true ONLY when the text establishes an active production/live-service outage affecting all users/customers; otherwise false. The word URGENT alone is not evidence. Missing or wrong-type fields earn zero; extra keys earn no credit. Exact-match rate requires both fields correct.
+
+POST /api/submit with {team_key, system_prompt}. GET /api/cases?team_key=KEY returns the visible set. POST /api/try with {team_key, system_prompt, case_id} (or input instead of case_id) tries one input without a submission. Free text is unscored unless the task supplies an expected answer. One run per key; try and submit share the same rate limit. Optimize only prompt.txt, inspect failures, repeat.

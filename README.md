@@ -48,3 +48,10 @@ A fast first loop by hand: `node eval.mjs`, read the failures it prints, change 
 ## GEPA (optional)
 
 GEPA (`pip install gepa`, or `dspy.GEPA`) is a reflective prompt optimizer: it runs your candidate prompt on training cases, reads the execution traces plus textual feedback from the metric, has a reflection LLM propose a mutated prompt, and keeps a Pareto frontier of candidates. To use it here, write a metric that POSTs a candidate prompt to `/api/submit` and returns, for each case, both the score and a short text explaining the failure (for example "expected timer.set, got weather.get" or "missing key: label"). The metric **must return textual feedback, not just a number**: GEPA's whole mechanism is reflection over that text. Pass `trainset` and `valset` split from `cases.json`, let it run for a bounded number of rollouts (the server rate limit applies; batch cases per submission since each submission scores the full visible set), and submit the best candidate's text as `prompt.txt`. The `gepa` README has an `optimize_anything` example that takes a plain string parameter, which is exactly this situation.
+
+## Other tasks on the same arena
+
+The same harness and API serve two more tasks tonight. Each folder has its own `cases.json` (the 60 visible cases with expected answers), `eval.mjs`, `prompt.txt` and `README.md`; set `SERVER_URL` to that task's arena URL from the slide.
+
+- `tickets/`: support-ticket triage. Label the active issue (billing, access, outage, other) and flag true emergencies. Model: gemma3:1b.
+- `dragon/`: the Dragon's Code. The model is a dragon ruling EATEN, SPARED or REWARDED on each visitor under six precedence-ordered rules. Model: llama3.2:3b.

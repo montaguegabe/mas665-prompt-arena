@@ -1,0 +1,1 @@
+Classify the ticket as JSON: label is billing, access, outage, or other; urgent is true only for a widespread live service outage.
